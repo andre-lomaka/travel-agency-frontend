@@ -1,1 +1,55 @@
-<p>index works!</p>
+<div class="container">
+  <div class="panel panel-primary">
+
+    <div class="panel-heading">
+      <h2>Trips</h2>
+    </div>
+
+    <div class="panel-body">
+      <a href="#" routerLink="/trip/search" class="btn btn-success">Search</a>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="d-none">ID</th>
+            <th>Departure Date</th>
+            <th>Return Date</th>
+            <th>Adult Price</th>
+            <th>Child Price</th>
+            <th>Promoted</th>
+            <th>Number of Adult Beds</th>
+            <th>Number of Child Beds</th>
+            <th>Vacancies</th>
+            <th>Type</th>
+            <th>Departure City/Airport</th>
+            <th>Destination City/Airport</th>
+            <th>Hotel</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trip of trips">
+            <td class="d-none">{{trip.id}}</td>
+            <td>{{trip.departureDate}}</td>
+            <td>{{trip.returnDate}}</td>
+            <td>{{trip.adultPrice}}</td>
+            <td>{{trip.childPrice}}</td>
+            <td>{{trip.promoted}}</td>
+            <td>{{trip.numberOfAdultBeds}}</td>
+            <td>{{trip.numberOfChildBeds}}</td>
+            <td>{{trip.vacancies}}</td>
+            <td>{{trip.boardBasisType.typeString}}</td>
+            <td>{{trip.fromCity.name}}/{{trip.fromAirport.name}}</td>
+            <td>{{trip.toCity.name}}/{{trip.toAirport.name}}</td>
+            <td>{{trip.toHotel.name}}</td>
+            <td class="d-flex">
+              <a href="#" [routerLink]="['/trip/view', trip.id]" class="btn btn-info">View</a>
+              <a href="#" [routerLink]="['/trip/edit', trip.id]" class="btn btn-primary">Edit</a>
+              <a href="#" [routerLink]="['/purchase', trip.id]" class="btn btn-primary">Purchase</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

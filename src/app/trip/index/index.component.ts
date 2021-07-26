@@ -1,4 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Trip } from 'src/app/model/trip';
+import { TripService } from '../trip.service';
 
 @Component({
   selector: 'app-index',
@@ -7,9 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  trips: Trip[] = [];
+
+  constructor(private route: ActivatedRoute, private tripService: TripService) { }
 
   ngOnInit(): void {
-  }
+    this.tripService.getByCriteria(this.route.snapshot.queryParams).subscribe((data: Trip[]) => {
+      this.trips = data;
+    },
+    (err: HttpErrorResponse) => {
+      console.log("Message: " + err.message);
+      console.log(err.error);
+      console.log("Status: " + err.status);
+    }
+  )}
 
 }
