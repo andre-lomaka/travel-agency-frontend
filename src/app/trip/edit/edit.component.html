@@ -1,1 +1,81 @@
-<p>edit works!</p>
+<div class="container">
+  <h1>Edit Form</h1>
+
+  <a href="#" routerLink="/trip/index" class="btn btn-primary mb-3">Back</a>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="row mb-3">
+      <label for="departureDate" class="col-2 col-form-label" style="text-align: right">Departure date:</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="departureDate" style="width: 300px" formControlName="departureDate" readonly>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="returnDate" class="col-2 col-form-label" style="text-align: right">Return date:</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="returnDate" style="width: 300px" formControlName="returnDate" readonly>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="cityDeparture" class="col-2 col-form-label" style="text-align: right">City of departure:</label>
+      <div class="col-10">
+        <select class="form-select" id="cityDeparture" style="width: 300px" formControlName="cityDeparture">
+          <option value="">Select...</option>
+          <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="cityStay" class="col-2 col-form-label" style="text-align: right">City of stay:</label>
+      <div class="col-10">
+        <select class="form-select" id="cityStay" style="width: 300px" formControlName="cityStay">
+          <option value="">Select...</option>
+          <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="adultPrice" class="col-2 col-form-label" style="text-align: right;">Adult price:</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="adultPrice" style="width: 300px" formControlName="adultPrice">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="childPrice" class="col-2 col-form-label" style="text-align: right;">Child price:</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="childPrice" style="width: 300px" formControlName="childPrice">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="nAdultBeds" class="col-2 col-form-label" style="text-align: right;">Number of adult beds:</label>
+      <div class="col-10">
+        <input type="number" class="form-control" id="nAdultBeds" style="width: 300px" formControlName="nAdultBeds" min=0>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="nChildBeds" class="col-2 col-form-label" style="text-align: right;">Number of child beds:</label>
+      <div class="col-10">
+        <input type="number" class="form-control" id="nChildBeds" style="width: 300px" formControlName="nChildBeds" min=0>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="vacancies" class="col-2 col-form-label" style="text-align: right;">Vacancies:</label>
+      <div class="col-10">
+        <input type="number" class="form-control" id="vacancies" style="width: 300px" formControlName="vacancies" min=0>
+      </div>
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </form>
+</div>
