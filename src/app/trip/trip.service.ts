@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Airport } from '../model/airport';
 import { City } from '../model/city';
+import { Hotel } from '../model/hotel';
 import { Trip } from '../model/trip';
 
 @Injectable({
@@ -25,6 +27,14 @@ export class TripService {
 
   getAllCities(): Observable<City[]> {
     return this.httpClient.get<City[]>(this.apiURL + '/cities');
+  }
+
+  getAllHotels(): Observable<Hotel[]> {
+    return this.httpClient.get<Hotel[]>(this.apiURL + '/hotels');
+  }
+
+  getAllAirports(): Observable<Airport[]> {
+    return this.httpClient.get<Airport[]>(this.apiURL + '/airports');
   }
 
   getByCriteria(params: Params): Observable<Trip[]> {

@@ -30,11 +30,41 @@
     </div>
 
     <div class="row mb-3">
+      <label for="airportDeparture" class="col-2 col-form-label" style="text-align: right">Airport of departure:</label>
+      <div class="col-10">
+        <select class="form-select" id="airportDeparture" style="width: 300px" formControlName="airportDeparture">
+          <option value="">Select...</option>
+          <option *ngFor="let airportFrom of airportFroms" [value]="airportFrom.id">{{airportFrom.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
       <label for="cityStay" class="col-2 col-form-label" style="text-align: right">City of stay:</label>
       <div class="col-10">
         <select class="form-select" id="cityStay" style="width: 300px" formControlName="cityStay">
           <option value="">Select...</option>
           <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="airportArrival" class="col-2 col-form-label" style="text-align: right">Airport of arrival:</label>
+      <div class="col-10">
+        <select class="form-select" id="airportArrival" style="width: 300px" formControlName="airportArrival">
+          <option value="">Select...</option>
+          <option *ngFor="let airportTo of airportTos" [value]="airportTo.id">{{airportTo.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="hotelStay" class="col-2 col-form-label" style="text-align: right">Hotel of stay:</label>
+      <div class="col-10">
+        <select class="form-select" id="hotelStay" style="width: 300px" formControlName="hotelStay">
+          <option value="">Select...</option>
+          <option *ngFor="let hotel of hotels" [value]="hotel.id">{{hotel.name}}</option>
         </select>
       </div>
     </div>
@@ -74,7 +104,28 @@
       </div>
     </div>
 
-    <div>
+    <div class="row mb-3">
+      <label for="boardBasisType" class="col-2 col-form-label" style="text-align: right">Board basis type:</label>
+      <div class="col-10">
+        <select class="form-select" id="boardBasisType" style="width: 300px" formControlName="boardBasisType">
+          <option value="">Select...</option>
+          <option value="RO">RO</option>
+          <option value="BB">BB</option>
+          <option value="HB">HB</option>
+          <option value="FB">FB</option>
+          <option value="AI">AI</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="promoted" class="col-2 col-form-label" style="text-align: right;">Promoted:</label>
+      <div class="col-10">
+        <input type="checkbox" class="form-check-input" style="margin-top: 12px;" id="promoted" formControlName="promoted">
+      </div>
+    </div>
+
+    <div class="mb-3">
       <button type="submit" class="btn btn-primary">Update</button>
     </div>
   </form>
