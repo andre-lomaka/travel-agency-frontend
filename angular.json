@@ -28,9 +28,15 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-daterangepicker/daterangepicker.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap-daterangepicker/moment.min.js",
+              "node_modules/bootstrap-daterangepicker/daterangepicker.js"
+            ]
           },
           "configurations": {
             "production": {

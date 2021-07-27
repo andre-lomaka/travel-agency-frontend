@@ -8,6 +8,8 @@ import { Hotel } from 'src/app/model/hotel';
 import { Trip } from 'src/app/model/trip';
 import { TripService } from '../trip.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -26,6 +28,16 @@ export class EditComponent implements OnInit {
   constructor(private tripService: TripService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    $('input[name="daterange-single"]').daterangepicker(
+      {
+        singleDatePicker: !0,
+        opens: "right",
+        autoApply: true,
+        locale: {
+          format: "YYYY-MM-DD"
+        }
+      }
+    );
     this.form = new FormGroup({
       departureDate: new FormControl(''),
       returnDate: new FormControl(''),
