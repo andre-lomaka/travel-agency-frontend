@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Airport } from 'src/app/model/airport';
 import { City } from 'src/app/model/city';
 import { Hotel } from 'src/app/model/hotel';
@@ -26,7 +26,7 @@ export class EditComponent implements OnInit {
   form: FormGroup;
   tripId: number = 0;
 
-  constructor(private tripService: TripService, private route: ActivatedRoute) { }
+  constructor(private tripService: TripService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     $('input[name="daterange-single"]').daterangepicker(
@@ -55,6 +55,7 @@ export class EditComponent implements OnInit {
       boardBasisType: new FormControl(''),
       promoted: new FormControl('')
     });
+    this.getTrip();
     this.getCityData();
   }
 
@@ -101,9 +102,7 @@ export class EditComponent implements OnInit {
   }
 
   getTripData(): void {
-    let tripId = Number(this.route.snapshot.paramMap.get('id'));
-    this.tripId = tripId;
-    this.tripService.getById(tripId).subscribe((data: Trip) => {
+    this.tripService.getById(this.tripId).subscribe((data: Trip) => {
       this.form.controls['departureDate'].setValue(data.departureDate);
       $('#departureDate').data('daterangepicker').setStartDate(data.departureDate);
       $('#departureDate').data('daterangepicker').setEndDate(data.departureDate);
@@ -223,6 +222,7 @@ export class EditComponent implements OnInit {
     this.tripService.update(p, this.tripId).subscribe(
       res => {
         console.log('Trip updated successfully!');
+        this.router.navigateByUrl('trip/index');
       },
       (err: HttpErrorResponse) => {
         console.log("Message: " + err.message);
@@ -232,4 +232,7 @@ export class EditComponent implements OnInit {
     );
   }
 
+  getTrip(): void {
+    this.tripId = Number(this.route.snapshot.paramMap.get('id'));
+  }
 }
