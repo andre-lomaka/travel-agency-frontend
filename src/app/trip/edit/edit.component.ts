@@ -24,6 +24,7 @@ export class EditComponent implements OnInit {
   airportFroms: Airport[] = [];
   airportTos: Airport[] = [];
   form: FormGroup;
+  tripId: number = 0;
 
   constructor(private tripService: TripService, private route: ActivatedRoute) { }
 
@@ -101,9 +102,14 @@ export class EditComponent implements OnInit {
 
   getTripData(): void {
     let tripId = Number(this.route.snapshot.paramMap.get('id'));
+    this.tripId = tripId;
     this.tripService.getById(tripId).subscribe((data: Trip) => {
       this.form.controls['departureDate'].setValue(data.departureDate);
+      $('#departureDate').data('daterangepicker').setStartDate(data.departureDate);
+      $('#departureDate').data('daterangepicker').setEndDate(data.departureDate);
       this.form.controls['returnDate'].setValue(data.returnDate);
+      $('#returnDate').data('daterangepicker').setStartDate(data.returnDate);
+      $('#returnDate').data('daterangepicker').setEndDate(data.returnDate);
       this.form.controls['cityDeparture'].setValue(data.fromCity.id);
       this.filterAirportsByCity(data.fromCity.id, this.airportFroms);
       if (this.airportFroms.length) this.form.controls['airportDeparture'].setValue(data.fromAirport.id);
@@ -120,7 +126,7 @@ export class EditComponent implements OnInit {
       this.form.controls['nAdultBeds'].setValue(data.numberOfAdultBeds);
       this.form.controls['nChildBeds'].setValue(data.numberOfChildBeds);
       this.form.controls['vacancies'].setValue(data.vacancies);
-      this.form.controls['boardBasisType'].setValue(data.boardBasisType.typeString);
+      this.form.controls['boardBasisType'].setValue(data.boardBasisType.id);
       this.form.controls['promoted'].setValue(data.promoted);
     },
     (err: HttpErrorResponse) => {
@@ -129,6 +135,12 @@ export class EditComponent implements OnInit {
       console.log("Status: " + err.status);
     },
     () => {
+      $('#departureDate').on('apply.daterangepicker', (ev, picker) => {
+        this.form.controls['departureDate'].setValue(picker.startDate.format('YYYY-MM-DD'));
+      });
+      $('#returnDate').on('apply.daterangepicker', (ev, picker) => {
+        this.form.controls['returnDate'].setValue(picker.startDate.format('YYYY-MM-DD'));
+      });
       this.form.get('cityStay').valueChanges.subscribe(val => {
         if (val) {
           const id = Number(val);
@@ -179,6 +191,45 @@ export class EditComponent implements OnInit {
 
   submit() {
     let v = this.form.value;
+    let p: any = {
+      id: this.tripId,
+      departureDate: v.departureDate,
+      returnDate: v.returnDate,
+      adultPrice: v.adultPrice,
+      childPrice: v.childPrice,
+      promoted: v.promoted,
+      numberOfAdultBeds: v.nAdultBeds,
+      numberOfChildBeds: v.nChildBeds,
+      vacancies: v.vacancies,
+      boardBasisType: {
+        id: Number(v.boardBasisType)
+      },
+      fromCity: {
+        id: Number(v.cityDeparture)
+      },
+      toCity: {
+        id: Number(v.cityStay)
+      },
+      fromAirport: {
+        id: Number(v.airportDeparture)
+      },
+      toAirport: {
+        id: Number(v.airportArrival)
+      },
+      toHotel: {
+        id: Number(v.hotelStay)
+      }
+    };
+    this.tripService.update(p, this.tripId).subscribe(
+      res => {
+        console.log('Trip updated successfully!');
+      },
+      (err: HttpErrorResponse) => {
+        console.log("Message: " + err.message);
+        console.log(err.error);
+        console.log("Status: " + err.status);        
+      }
+    );
   }
 
 }

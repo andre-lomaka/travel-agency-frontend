@@ -37,6 +37,10 @@ export class TripService {
     return this.httpClient.get<Airport[]>(this.apiURL + '/airports');
   }
 
+  update(trip: Trip, id: number): Observable<Trip> {
+    return this.httpClient.put<Trip>(this.apiURL + '/trips/' + id, JSON.stringify(trip), this.httpOptions);
+  }
+
   getByCriteria(params: Params): Observable<Trip[]> {
     if (typeof params.fromCity !== 'undefined') {
       this.httpOptions.params = this.httpOptions.params.append('fromCity', params.fromCity);
