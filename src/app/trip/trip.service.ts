@@ -41,6 +41,10 @@ export class TripService {
     return this.httpClient.put<Trip>(this.apiURL + '/trips/' + id, JSON.stringify(trip), this.httpOptions);
   }
 
+  create(trip: Trip): Observable<Trip> {
+    return this.httpClient.post<Trip>(this.apiURL + '/trips', JSON.stringify(trip), this.httpOptions);
+  }
+
   getByCriteria(params: Params): Observable<Trip[]> {
     if (typeof params.fromCity !== 'undefined') {
       this.httpOptions.params = this.httpOptions.params.append('fromCity', params.fromCity);

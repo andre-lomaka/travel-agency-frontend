@@ -25,6 +25,7 @@ export class EditComponent implements OnInit {
   airportTos: Airport[] = [];
   form: FormGroup;
   tripId: number = 0;
+  action: string = "Update";
 
   constructor(private tripService: TripService, private router: Router, private route: ActivatedRoute) { }
 
@@ -53,7 +54,49 @@ export class EditComponent implements OnInit {
       nChildBeds: new FormControl(''),
       vacancies: new FormControl(''),
       boardBasisType: new FormControl(''),
-      promoted: new FormControl('')
+      promoted: new FormControl(false)
+    });
+    this.form.get('cityStay').valueChanges.subscribe(val => {
+      if (val) {
+        const id = Number(val);
+        this.filterHotelsByCity(id);
+        if (this.hotels.length) this.form.controls['hotelStay'].setValue(this.hotels[0].id);
+        else {
+          this.form.controls['hotelStay'].setValue('');
+          this.hotels = []; 
+        }
+        this.filterAirportsByCity(id, this.airportTos);
+        if (this.airportTos.length) this.form.controls['airportArrival'].setValue(this.airportTos[0].id);
+        else {
+          this.form.controls['airportArrival'].setValue('');
+          this.airportTos = [];
+        }
+      } else {
+        this.form.controls['hotelStay'].setValue('');
+        this.hotels = [];
+        this.form.controls['airportArrival'].setValue('');
+        this.airportTos = [];
+      }
+    });
+    this.form.get('cityDeparture').valueChanges.subscribe(val => {
+      if (val) {
+        const id = Number(val);
+        this.filterAirportsByCity(id, this.airportFroms);
+        if (this.airportFroms.length) this.form.controls['airportDeparture'].setValue(this.airportFroms[0].id);
+        else {
+          this.form.controls['airportDeparture'].setValue('');
+          this.airportFroms = [];
+        }
+      } else {
+        this.form.controls['airportDeparture'].setValue('');
+        this.airportFroms = [];
+      }
+    });
+    $('#departureDate').on('apply.daterangepicker', (ev, picker) => {
+      this.form.controls['departureDate'].setValue(picker.startDate.format('YYYY-MM-DD'));
+    });
+    $('#returnDate').on('apply.daterangepicker', (ev, picker) => {
+      this.form.controls['returnDate'].setValue(picker.startDate.format('YYYY-MM-DD'));
     });
     this.getTrip();
     this.getCityData();
@@ -102,81 +145,39 @@ export class EditComponent implements OnInit {
   }
 
   getTripData(): void {
-    this.tripService.getById(this.tripId).subscribe((data: Trip) => {
-      this.form.controls['departureDate'].setValue(data.departureDate);
-      $('#departureDate').data('daterangepicker').setStartDate(data.departureDate);
-      $('#departureDate').data('daterangepicker').setEndDate(data.departureDate);
-      this.form.controls['returnDate'].setValue(data.returnDate);
-      $('#returnDate').data('daterangepicker').setStartDate(data.returnDate);
-      $('#returnDate').data('daterangepicker').setEndDate(data.returnDate);
-      this.form.controls['cityDeparture'].setValue(data.fromCity.id);
-      this.filterAirportsByCity(data.fromCity.id, this.airportFroms);
-      if (this.airportFroms.length) this.form.controls['airportDeparture'].setValue(data.fromAirport.id);
-      else this.form.controls['airportDeparture'].setValue('');
-      this.form.controls['cityStay'].setValue(data.toCity.id);
-      this.filterHotelsByCity(data.toCity.id);
-      this.filterAirportsByCity(data.toCity.id, this.airportTos);
-      if (this.airportTos.length) this.form.controls['airportArrival'].setValue(data.toAirport.id);
-      else this.form.controls['airportArrival'].setValue('');
-      if (this.hotels.length) this.form.controls['hotelStay'].setValue(data.toHotel.id);
-      else this.form.controls['hotelStay'].setValue('');
-      this.form.controls['adultPrice'].setValue(data.adultPrice);
-      this.form.controls['childPrice'].setValue(data.childPrice);
-      this.form.controls['nAdultBeds'].setValue(data.numberOfAdultBeds);
-      this.form.controls['nChildBeds'].setValue(data.numberOfChildBeds);
-      this.form.controls['vacancies'].setValue(data.vacancies);
-      this.form.controls['boardBasisType'].setValue(data.boardBasisType.id);
-      this.form.controls['promoted'].setValue(data.promoted);
-    },
-    (err: HttpErrorResponse) => {
-      console.log("Message: " + err.message);
-      console.log(err.error);
-      console.log("Status: " + err.status);
-    },
-    () => {
-      $('#departureDate').on('apply.daterangepicker', (ev, picker) => {
-        this.form.controls['departureDate'].setValue(picker.startDate.format('YYYY-MM-DD'));
+    if (this.tripId) {
+      this.tripService.getById(this.tripId).subscribe((data: Trip) => {
+        this.form.controls['departureDate'].setValue(data.departureDate);
+        $('#departureDate').data('daterangepicker').setStartDate(data.departureDate);
+        $('#departureDate').data('daterangepicker').setEndDate(data.departureDate);
+        this.form.controls['returnDate'].setValue(data.returnDate);
+        $('#returnDate').data('daterangepicker').setStartDate(data.returnDate);
+        $('#returnDate').data('daterangepicker').setEndDate(data.returnDate);
+        this.form.controls['cityDeparture'].setValue(data.fromCity.id);
+        this.filterAirportsByCity(data.fromCity.id, this.airportFroms);
+        if (this.airportFroms.length) this.form.controls['airportDeparture'].setValue(data.fromAirport.id);
+        else this.form.controls['airportDeparture'].setValue('');
+        this.form.controls['cityStay'].setValue(data.toCity.id);
+        this.filterHotelsByCity(data.toCity.id);
+        this.filterAirportsByCity(data.toCity.id, this.airportTos);
+        if (this.airportTos.length) this.form.controls['airportArrival'].setValue(data.toAirport.id);
+        else this.form.controls['airportArrival'].setValue('');
+        if (this.hotels.length) this.form.controls['hotelStay'].setValue(data.toHotel.id);
+        else this.form.controls['hotelStay'].setValue('');
+        this.form.controls['adultPrice'].setValue(data.adultPrice);
+        this.form.controls['childPrice'].setValue(data.childPrice);
+        this.form.controls['nAdultBeds'].setValue(data.numberOfAdultBeds);
+        this.form.controls['nChildBeds'].setValue(data.numberOfChildBeds);
+        this.form.controls['vacancies'].setValue(data.vacancies);
+        this.form.controls['boardBasisType'].setValue(data.boardBasisType.id);
+        this.form.controls['promoted'].setValue(data.promoted);
+      },
+      (err: HttpErrorResponse) => {
+        console.log("Message: " + err.message);
+        console.log(err.error);
+        console.log("Status: " + err.status);
       });
-      $('#returnDate').on('apply.daterangepicker', (ev, picker) => {
-        this.form.controls['returnDate'].setValue(picker.startDate.format('YYYY-MM-DD'));
-      });
-      this.form.get('cityStay').valueChanges.subscribe(val => {
-        if (val) {
-          const id = Number(val);
-          this.filterHotelsByCity(id);
-          if (this.hotels.length) this.form.controls['hotelStay'].setValue(this.hotels[0].id);
-          else {
-            this.form.controls['hotelStay'].setValue('');
-            this.hotels = []; 
-          }
-          this.filterAirportsByCity(id, this.airportTos);
-          if (this.airportTos.length) this.form.controls['airportArrival'].setValue(this.airportTos[0].id);
-          else {
-            this.form.controls['airportArrival'].setValue('');
-            this.airportTos = [];
-          }
-        } else {
-          this.form.controls['hotelStay'].setValue('');
-          this.hotels = [];
-          this.form.controls['airportArrival'].setValue('');
-          this.airportTos = [];
-        }
-      });
-      this.form.get('cityDeparture').valueChanges.subscribe(val => {
-        if (val) {
-          const id = Number(val);
-          this.filterAirportsByCity(id, this.airportFroms);
-          if (this.airportFroms.length) this.form.controls['airportDeparture'].setValue(this.airportFroms[0].id);
-          else {
-            this.form.controls['airportDeparture'].setValue('');
-            this.airportFroms = [];
-          }
-        } else {
-          this.form.controls['airportDeparture'].setValue('');
-          this.airportFroms = [];
-        }
-      });
-    });
+    }
   }
 
   filterHotelsByCity(cityId: number): void {
@@ -219,20 +220,37 @@ export class EditComponent implements OnInit {
         id: Number(v.hotelStay)
       }
     };
-    this.tripService.update(p, this.tripId).subscribe(
-      res => {
-        console.log('Trip updated successfully!');
-        this.router.navigateByUrl('trip/index');
-      },
-      (err: HttpErrorResponse) => {
-        console.log("Message: " + err.message);
-        console.log(err.error);
-        console.log("Status: " + err.status);        
-      }
-    );
+    console.log(p);
+    if (this.tripId) {
+      this.tripService.update(p, this.tripId).subscribe(
+        res => {
+          console.log('Trip updated successfully!');
+          this.router.navigateByUrl('trip/index');
+        },
+        (err: HttpErrorResponse) => {
+          console.log("Message: " + err.message);
+          console.log(err.error);
+          console.log("Status: " + err.status);        
+        }
+      );
+    } else {
+      this.tripService.create(p).subscribe(
+        res => {
+          console.log('Trip created successfully!');
+          this.router.navigateByUrl('trip/index');
+        },
+        (err: HttpErrorResponse) => {
+          console.log("Message: " + err.message);
+          console.log(err.error);
+          console.log("Status: " + err.status);        
+        }
+      );      
+    }
+
   }
 
   getTrip(): void {
-    this.tripId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.route.snapshot.paramMap.has('id')) this.tripId = Number(this.route.snapshot.paramMap.get('id'));
+    else this.action = 'Add';
   }
 }

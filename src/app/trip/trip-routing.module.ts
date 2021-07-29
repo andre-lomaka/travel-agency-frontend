@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'trip/index', component: IndexComponent },
   { path: 'trip/view/:id', component: ViewComponent },
   { path: 'trip/edit/:id', component: EditComponent },
+  { path: 'trip/create', component: EditComponent },
   { path: '**', pathMatch: 'full', component: NotFoundComponent }
 ];
 
