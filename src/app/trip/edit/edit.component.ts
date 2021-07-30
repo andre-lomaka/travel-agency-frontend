@@ -107,9 +107,7 @@ export class EditComponent implements OnInit {
       this.cities = data;
     },
     (err: HttpErrorResponse) => {
-      console.log("Message: " + err.message);
-      console.log(err.error);
-      console.log("Status: " + err.status);
+      this.showError(err);
     },
     () => {
       this.getHotelData();
@@ -121,9 +119,7 @@ export class EditComponent implements OnInit {
       this.hotelsAll = data;
     },
     (err: HttpErrorResponse) => {
-      console.log("Message: " + err.message);
-      console.log(err.error);
-      console.log("Status: " + err.status);
+      this.showError(err);
     },
     () => {
       this.getAirportData();
@@ -135,9 +131,7 @@ export class EditComponent implements OnInit {
       this.airportsAll = data;
     },
     (err: HttpErrorResponse) => {
-      console.log("Message: " + err.message);
-      console.log(err.error);
-      console.log("Status: " + err.status);
+      this.showError(err);
     },
     () => {
       this.getTripData();
@@ -173,9 +167,7 @@ export class EditComponent implements OnInit {
         this.form.controls['promoted'].setValue(data.promoted);
       },
       (err: HttpErrorResponse) => {
-        console.log("Message: " + err.message);
-        console.log(err.error);
-        console.log("Status: " + err.status);
+        this.showError(err);
       });
     }
   }
@@ -220,7 +212,6 @@ export class EditComponent implements OnInit {
         id: Number(v.hotelStay)
       }
     };
-    console.log(p);
     if (this.tripId) {
       this.tripService.update(p, this.tripId).subscribe(
         res => {
@@ -228,9 +219,7 @@ export class EditComponent implements OnInit {
           this.router.navigateByUrl('trip/index');
         },
         (err: HttpErrorResponse) => {
-          console.log("Message: " + err.message);
-          console.log(err.error);
-          console.log("Status: " + err.status);        
+          this.showError(err);
         }
       );
     } else {
@@ -240,9 +229,7 @@ export class EditComponent implements OnInit {
           this.router.navigateByUrl('trip/index');
         },
         (err: HttpErrorResponse) => {
-          console.log("Message: " + err.message);
-          console.log(err.error);
-          console.log("Status: " + err.status);        
+          this.showError(err); 
         }
       );      
     }
@@ -252,5 +239,11 @@ export class EditComponent implements OnInit {
   getTrip(): void {
     if (this.route.snapshot.paramMap.has('id')) this.tripId = Number(this.route.snapshot.paramMap.get('id'));
     else this.action = 'Add';
+  }
+
+  showError(err: HttpErrorResponse): void {
+    console.log("Message: " + err.message);
+    console.log(err.error);
+    console.log("Status: " + err.status);
   }
 }

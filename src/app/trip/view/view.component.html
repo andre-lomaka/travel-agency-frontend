@@ -1,1 +1,21 @@
-<p>view works!</p>
+<div class="container">
+    <div class="row pt-4">
+      <div class="col-lg-4">
+        <ul class="list-items list-items-2">
+          <li><span>Departure date:</span>{{trip.departureDate}}</li>
+          <li><span>Return date:</span>{{trip.returnDate}}</li>
+          <li><span>Adult price:</span>{{trip.adultPrice}}</li>
+          <li><span>Child price:</span>{{trip.childPrice}}</li>
+          <li><span>Promoted:</span>{{trip.promoted}}</li>
+          <li><span>Number of adult beds:</span>{{trip.numberOfAdultBeds}}</li>
+          <li><span>Number of child beds:</span>{{trip.numberOfChildBeds}}</li>
+          <li><span>Vacancies:</span>{{trip.vacancies}}</li>
+          <li><span>Board basis type:</span>{{trip.boardBasisType.typeString}}</li>
+          <li><span>City/Airport of departure:</span>{{trip.fromCity.name}}/{{trip.fromAirport.name}}</li>
+          <li><span>City/Airport of arrival:</span>{{trip.toCity.name}}/{{trip.toAirport.name}}</li>
+          <li><span>Hotel:</span>{{trip.toHotel.name}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
