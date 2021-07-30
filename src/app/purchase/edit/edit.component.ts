@@ -13,15 +13,25 @@ export class EditComponent implements OnInit {
 
   form: FormGroup;
   tripId = 0;
+  purchaseId = 0;
+  create = true;
+  back = 'trip';
+  title = 'Create New';
 
   constructor(private purchaseService: PurchaseService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      numberOfAdults: new FormControl(''),
-      numberOfChildren: new FormControl('')
+      numberOfAdults: new FormControl(0),
+      numberOfChildren: new FormControl(0)
     });
-    this.getTrip();
+    this.tripId = Number(this.route.snapshot.paramMap.get('idt'));
+    if (this.route.snapshot.url[1].path === 'edit') {
+      this.create = false;
+      this.back = 'purchase';
+      this.title = 'Edit';
+      this.purchaseId = Number(this.route.snapshot.paramMap.get('idp'));
+    }
   }
 
   get f() {
@@ -31,20 +41,32 @@ export class EditComponent implements OnInit {
   submit() {
     let v = this.form.value;
     let p: any = { numberOfChildren: v.numberOfChildren, numberOfAdults: v.numberOfAdults, trip: { id: this.tripId } };
-    this.purchaseService.create(p).subscribe(
-      res => {
-        console.log('Purchase created succesfully!');
-        this.router.navigateByUrl('purchase/index');
-      },
-      (err: HttpErrorResponse) => {
-        console.log("Message: " + err.message);
-        console.log(err.error);
-        console.log("Status: " + err.status);
-      }
-    );
+    if (this.create) {
+      this.purchaseService.create(p).subscribe(
+        res => {
+          console.log('Purchase created succesfully!');
+          this.router.navigateByUrl('trip/index');
+        },
+        (err: HttpErrorResponse) => {
+          this.showError(err);
+        }
+      );
+    } else {
+      this.purchaseService.update(this.purchaseId, p).subscribe(
+        res => {
+          console.log('Purchase updated succesfully!');
+          this.router.navigateByUrl('purchase/index');
+        },
+        (err: HttpErrorResponse) => {
+          this.showError(err);
+        }
+      );
+    }
   }
 
-  getTrip(): void {
-    this.tripId = Number(this.route.snapshot.paramMap.get('id'));
+  showError(err: HttpErrorResponse): void {
+    console.log("Message: " + err.message);
+    console.log(err.error);
+    console.log("Status: " + err.status);
   }
 }

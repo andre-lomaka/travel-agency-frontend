@@ -26,6 +26,10 @@ export class PurchaseService {
   //  .pipe(catchError(this.errorHandler));
   }
 
+  update(id: number, purchase: Purchase): Observable<Purchase> {
+    return this.httpClient.put<Purchase>(this.apiURL + '/purchases/' + id, JSON.stringify(purchase), this.httpOptions);
+  }
+
   delete(id: number) {
     return this.httpClient.delete<Purchase>(this.apiURL + '/purchases/' + id, this.httpOptions);
   }

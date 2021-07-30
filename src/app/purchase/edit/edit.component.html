@@ -1,7 +1,7 @@
 <div class="container">
-  <h1>Create New Purchase</h1>
+  <h1>{{title}} Purchase</h1>
 
-  <a href="#" routerLink="/trip/index" class="btn btn-primary mb-3">Back</a>
+  <a href="#" routerLink="/{{back}}/index" class="btn btn-primary mb-3">Back</a>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
 

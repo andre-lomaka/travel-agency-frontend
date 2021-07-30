@@ -7,7 +7,8 @@ import { ViewComponent } from './view/view.component';
 const routes: Routes = [
   { path: 'purchase', redirectTo: 'purchase/index', pathMatch: 'full' },
   { path: 'purchase/index', component: IndexComponent },
-  { path: 'purchase/edit/:id', component: EditComponent },
+  { path: 'purchase/edit/:idp/:idt', component: EditComponent },
+  { path: 'purchase/create/:idt', component: EditComponent },
   { path: 'purchase/view/:id', component: ViewComponent }
 ];
 

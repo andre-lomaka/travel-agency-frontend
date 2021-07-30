@@ -26,7 +26,7 @@
             <td>{{purchase.createdAt}}</td>
             <td class="d-flex">
               <a href="#" [routerLink]="['/purchase/view', purchase.id]" class="btn btn-info">View</a>
-              <a href="#" class="btn btn-primary">Edit</a>
+              <a href="#" [routerLink]="['/purchase/edit', purchase.id, purchase.trip.id]" class="btn btn-primary">Edit</a>
               <button type="button" class="btn btn-danger">Delete</button>
             </td>
           </tr>
