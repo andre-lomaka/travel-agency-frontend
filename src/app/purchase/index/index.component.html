@@ -1,1 +1,38 @@
-<p>index works!</p>
+<div class="container">
+  <div class="panel panel-primary">
+
+    <div class="panel-heading">
+      <h2>Purchases</h2>
+    </div>
+
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="d-none">ID</th>
+            <th>Number of Adults</th>
+            <th>Number of Children</th>
+            <th>Price</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let purchase of purchases">
+            <td class="d-none">{{purchase.id}}</td>
+            <td>{{purchase.numberOfAdults}}</td>
+            <td>{{purchase.numberOfChildren}}</td>
+            <td>{{purchase.price}}</td>
+            <td>{{purchase.createdAt}}</td>
+            <td class="d-flex">
+              <a href="#" class="btn btn-info">View</a>
+              <a href="#" class="btn btn-primary">Edit</a>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  </div>
+</div>
