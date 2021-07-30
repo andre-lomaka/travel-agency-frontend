@@ -30,6 +30,10 @@ export class PurchaseService {
     return this.httpClient.delete<Purchase>(this.apiURL + '/purchases/' + id, this.httpOptions);
   }
 
+  getById(id: number): Observable<Purchase> {
+    return this.httpClient.get<Purchase>(this.apiURL + '/purchases/' + id);
+  }
+
   //errorHandler(error: any) {
   //  let errorMessage = '';
   //  if (error.error instanceof ErrorEvent) {
