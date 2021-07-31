@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiHost: 'https://sda-travel-agency.herokuapp.com/api'
 };
