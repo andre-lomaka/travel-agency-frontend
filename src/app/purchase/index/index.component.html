@@ -27,7 +27,7 @@
             <td class="d-flex">
               <a href="#" [routerLink]="['/purchase/view', purchase.id]" class="btn btn-info">View</a>
               <a href="#" [routerLink]="['/purchase/edit', purchase.id, purchase.trip.id]" class="btn btn-primary">Edit</a>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" (click)="openModal(purchase.id)">Delete</button>
+              <button type="button" class="btn btn-danger" (click)="openModal(purchase.id)">Delete</button>
             </td>
           </tr>
         </tbody>
