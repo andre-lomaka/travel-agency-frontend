@@ -4,27 +4,26 @@
     <div class="panel-heading">
       <h2>Trips</h2>
     </div>
-
-    <div class="panel-body">
-      <a href="#" routerLink="/trip/search" class="btn btn-success">Search</a>
-      <a href="#" routerLink="/trip/create" class="btn btn-primary">Create new trip</a>
+    <a href="#" routerLink="/trip/search" class="btn btn-success">Search</a>
+    <a href="#" routerLink="/trip/create" class="btn btn-primary">Create new trip</a>
+    <div class="panel-body table-responsive">
       <table class="table table-striped">
         <thead>
           <tr>
             <th class="d-none">ID</th>
-            <th>Departure Date</th>
-            <th>Return Date</th>
-            <th>Adult Price</th>
-            <th>Child Price</th>
+            <th nowrap="nowrap">Departure Date</th>
+            <th nowrap="nowrap">Return Date</th>
+            <th nowrap="nowrap">Adult Price</th>
+            <th nowrap="nowrap">Child Price</th>
             <th>Promoted</th>
-            <th>Number of Adult Beds</th>
-            <th>Number of Child Beds</th>
+            <th nowrap="nowrap">Number of Adult Beds</th>
+            <th nowrap="nowrap">Number of Child Beds</th>
             <th>Vacancies</th>
             <th>Type</th>
-            <th>Departure City/Airport</th>
-            <th>Destination City/Airport</th>
+            <th nowrap="nowrap">Departure City/Airport</th>
+            <th nowrap="nowrap">Destination City/Airport</th>
             <th>Hotel</th>
-            <th>Action</th>
+            <th style="position: sticky; right: 0; background: white">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -39,10 +38,10 @@
             <td>{{trip.numberOfChildBeds}}</td>
             <td>{{trip.vacancies}}</td>
             <td>{{trip.boardBasisType.typeString}}</td>
-            <td>{{trip.fromCity.name}}/{{trip.fromAirport.name}}</td>
-            <td>{{trip.toCity.name}}/{{trip.toAirport.name}}</td>
-            <td>{{trip.toHotel.name}}</td>
-            <td class="d-flex">
+            <td nowrap="nowrap">{{trip.fromCity.name}}/{{trip.fromAirport.name}}</td>
+            <td nowrap="nowrap">{{trip.toCity.name}}/{{trip.toAirport.name}}</td>
+            <td nowrap="nowrap">{{trip.toHotel.name}}</td>
+            <td class="d-flex" style="position: sticky; right: 0; background: white">
               <a href="#" [routerLink]="['/trip/view', trip.id]" class="btn btn-info">View</a>
               <a href="#" [routerLink]="['/trip/edit', trip.id]" class="btn btn-primary">Edit</a>
               <a href="#" [routerLink]="['/purchase/create', trip.id]" class="btn btn-primary">Purchase</a>
