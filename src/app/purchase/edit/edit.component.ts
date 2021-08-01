@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Purchase } from 'src/app/model/purchase';
 import { PurchaseService } from '../purchase.service';
 
 @Component({
@@ -31,6 +32,15 @@ export class EditComponent implements OnInit {
       this.back = 'purchase';
       this.title = 'Edit';
       this.purchaseId = Number(this.route.snapshot.paramMap.get('idp'));
+      this.purchaseService.getById(this.purchaseId).subscribe(
+        (data: Purchase) => {
+          this.f['numberOfAdults'].setValue(data.numberOfAdults);
+          this.f['numberOfChildren'].setValue(data.numberOfChildren);
+        },
+        (err: HttpErrorResponse) => {
+          this.showError(err);
+        }
+      );
     }
   }
 
@@ -68,5 +78,6 @@ export class EditComponent implements OnInit {
     console.log("Message: " + err.message);
     console.log(err.error);
     console.log("Status: " + err.status);
+    if (err.error.message) alert(err.error.message);
   }
 }

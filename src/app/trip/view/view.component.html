@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row pt-4">
-    <div class="col-lg-4">
+    <div class="col-lg-4" *ngIf="trip">
       <ul class="list-items list-items-2">
         <li><span>Departure date:</span>{{trip.departureDate}}</li>
         <li><span>Return date:</span>{{trip.returnDate}}</li>
