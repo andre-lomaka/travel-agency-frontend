@@ -12,12 +12,14 @@ import { TripService } from '../trip.service';
 export class IndexComponent implements OnInit {
 
   trips: Trip[] = [];
+  tripsLoaded = false;
 
   constructor(private route: ActivatedRoute, private tripService: TripService) { }
 
   ngOnInit(): void {
     this.tripService.getByCriteria(this.route.snapshot.queryParams).subscribe((data: Trip[]) => {
       this.trips = data;
+      this.tripsLoaded = true;
     },
     (err: HttpErrorResponse) => {
       console.log("Message: " + err.message);

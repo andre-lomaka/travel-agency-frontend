@@ -14,12 +14,14 @@ export class IndexComponent implements OnInit {
 
   purchases: Purchase[] = [];
   purchaseToDelete = 0;
+  purchasesLoaded = false;
   
   constructor(private purchaseService: PurchaseService) { }
 
   ngOnInit(): void {
     this.purchaseService.getAll().subscribe((data: Purchase[]) => {
       this.purchases = data;
+      this.purchasesLoaded = true;
     },
     (err: HttpErrorResponse) => {
       this.showError(err);
