@@ -3,6 +3,17 @@
   <form method="get" action="/trip/search" ngNoForm>
 
     <div class="row mb-3">
+      <label for="searchCriteria" class="col-2 col-form-label" style="text-align: right">Search criteria:</label>
+      <div class="col-4">
+        <select class="form-select" id="searchCriteria" multiple="multiple" style="display: none;" data-placeholder="Enter search criteria...">
+          <option value="fromCity">City of departure</option>
+          <option value="toCity">City of stay</option>
+          <option value="bbt">Board basis type</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3" *ngIf="fromCity">
       <label for="cityDeparture" class="col-2 col-form-label" style="text-align: right">City of departure:</label>
       <div class="col-10">
         <select name="fromCity" class="form-select" id="cityDeparture" style="width: 300px">
@@ -12,7 +23,7 @@
       </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-3" *ngIf="toCity">
       <label for="cityStay" class="col-2 col-form-label" style="text-align: right">City of stay:</label>
       <div class="col-10">
         <select name="toCity" class="form-select" id="cityStay" style="width: 300px">
@@ -22,8 +33,22 @@
       </div>
     </div>
 
+    <div class="row mb-3" *ngIf="bbt">
+      <label for="bbt" class="col-2 col-form-label" style="text-align: right">Board basis type:</label>
+      <div class="col-10">
+        <select name="bbt" class="form-select" id="bbt" style="width: 300px">
+          <option value="">Select...</option>
+          <option value="1">RO</option>
+          <option value="2">BB</option>
+          <option value="3">HB</option>
+          <option value="4">FB</option>
+          <option value="5">AI</option>
+        </select>
+      </div>
+    </div>
+
     <div>
-      <button type="submit" class="btn btn-primary" formmethod="get">Search</button>
+      <button type="submit" class="btn btn-primary" formmethod="get" [disabled]="!fieldsSelected">Search</button>
     </div>
 
   </form>
