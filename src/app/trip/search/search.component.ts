@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BoardBasisType } from 'src/app/model/board-basis-type';
 import { City } from 'src/app/model/city';
 import { TripService } from '../trip.service';
 
@@ -19,18 +18,22 @@ export class SearchComponent implements OnInit {
   fromCity = false;
   toCity = false;
   bbt = false;
+  departureDate = false;
   fieldsSelected = false;
 
   constructor(private tripService: TripService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     $("select[multiple='multiple']").bsMultiSelect();
+    this.createDateRangePicker();
     $("#searchCriteria").change(() => {
       this.fromCity = false;
       this.toCity = false;
       this.bbt = false;
+      this.departureDate = false;
       this.fieldsSelected = false;
-      $("#searchCriteria option:selected").toArray().map(item => {
+      $("#departureDate").val("");
+      $("#searchCriteria option:selected").toArray().forEach(item => {
         this.fieldsSelected = true;
         switch (item.value) {
           case 'fromCity':
@@ -41,6 +44,9 @@ export class SearchComponent implements OnInit {
             break;
           case 'bbt':
             this.bbt = true;
+            break;
+          case 'departureDate':
+            this.departureDate = true;
             break;
         }
       });
@@ -68,9 +74,26 @@ export class SearchComponent implements OnInit {
         let bbSelected = Number(paramMap.get('bbt'));
         if (bbSelected)
           qp.queryParams.bbt = bbSelected;
+        let date = paramMap.get('departureDate');
+        if (date.length > 0)
+          qp.queryParams.departureDate = date;
         this.router.navigate(['/trip/index'], qp);
       }
     });
+  }
+
+  createDateRangePicker(): void {
+    $("input[datepicker='daterange-single']").daterangepicker(
+      {
+        singleDatePicker: !0,
+        opens: "right",
+        autoApply: true,
+        locale: {
+          format: "YYYY-MM-DD"
+        }
+      }
+    );
+    $("#departureDate").val("");
   }
 
 }

@@ -55,6 +55,9 @@ export class TripService {
     if (typeof params.bbt !== 'undefined') {
       this.httpOptions.params = this.httpOptions.params.append('bbt', params.bbt);
     }
+    if (typeof params.departureDate !== 'undefined') {
+      this.httpOptions.params = this.httpOptions.params.append('departureDate', params.departureDate);
+    }
     return this.httpClient.get<Trip[]>(this.apiURL + '/trips', this.httpOptions);
   }
 

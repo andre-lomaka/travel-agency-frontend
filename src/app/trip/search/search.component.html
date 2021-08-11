@@ -9,6 +9,7 @@
           <option value="fromCity">City of departure</option>
           <option value="toCity">City of stay</option>
           <option value="bbt">Board basis type</option>
+          <option value="departureDate">Departure date</option>
         </select>
       </div>
     </div>
@@ -44,6 +45,13 @@
           <option value="4">FB</option>
           <option value="5">AI</option>
         </select>
+      </div>
+    </div>
+
+    <div class="row mb-3" [hidden]="!departureDate">
+      <label for="departureDate" class="col-2 col-form-label" style="text-align: right">Departure date:</label>
+      <div class="col-10">
+        <input type="text" class="form-control" id="departureDate" style="width: 300px" datepicker="daterange-single" name="departureDate" readonly>
       </div>
     </div>
 
